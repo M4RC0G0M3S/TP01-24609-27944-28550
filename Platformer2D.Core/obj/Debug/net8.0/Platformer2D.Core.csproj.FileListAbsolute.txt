@@ -1,0 +1,13 @@
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/bin/Debug/net8.0/Platformer2D.Core.deps.json
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/bin/Debug/net8.0/Platformer2D.Core.dll
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/bin/Debug/net8.0/Platformer2D.Core.pdb
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.csproj.AssemblyReference.cache
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.AssemblyInfoInputs.cache
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.AssemblyInfo.cs
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.csproj.CoreCompileInputs.cache
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.sourcelink.json
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.dll
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/refint/Platformer2D.Core.dll
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/Platformer2D.Core.pdb
+/home/marcogomes/MonoGame.Samples/Platformer2D/Platformer2D.Core/obj/Debug/net8.0/ref/Platformer2D.Core.dll

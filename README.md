@@ -1,21 +1,40 @@
-# TP01-24609-27944-28550
+# 🎮 TP01 — Platformer 2D
 
-O nosso grupo escolheu um jogo 2d, que foi inspirado no jogo Super Mario Bros.
-O objetivo do jogo e conseguir atravessar os níveis, coletar itens e evitar ou derrotar inimigos.
+> Trabalho Prático 1 — Análise e Documentação de Projeto MonoGame
 
-O jogador pode:
-mover se para a esquerda e direita
-saltar entre plataformas
-interagir com o ambiente
-e derrotar ou evitar inimigos
-Caso o jogador colida com o inimigo, perde e reinicia o nível
+---
 
-Os níveis são construídos, com plataformas, paredes e zonas perigosas
+## 👥 Grupo
 
-Os inimigos movem-se automaticamente, o que cria um desafio ao jogador, porem podem ser derrotados quando saltamos em cima deles
+| Nome | Número |
+|---|---|
+| Afonso Miranda | 27944 |
+| Marco Gomes | 28550 |
+| David Costa | 24609 |
 
-O sistema de pontuação, consiste em coletar as gemas, o que gera pontos e incentiva o jogador a percorrer o mapa todo
-## Arquitetura do Projeto
+---
+
+## 📋 Descrição do Projeto
+
+O nosso grupo escolheu um jogo 2D inspirado no clássico **Super Mario Bros**.
+
+O objetivo do jogo é conseguir atravessar os níveis, coletar itens e evitar ou derrotar inimigos.
+
+**O jogador pode:**
+- Mover-se para a esquerda e para a direita
+- Saltar entre plataformas
+- Interagir com o ambiente
+- Derrotar ou evitar inimigos
+
+> ⚠️ Caso o jogador colida com um inimigo, perde e reinicia o nível.
+
+Os níveis são construídos com plataformas, paredes e zonas perigosas. Os inimigos movem-se automaticamente, criando um desafio ao jogador — porém podem ser derrotados quando saltamos em cima deles.
+
+O sistema de pontuação consiste em coletar gemas, o que gera pontos e incentiva o jogador a percorrer o mapa todo.
+
+---
+
+## 🏗️ Arquitetura do Projeto
 
 O projeto segue um padrão **Core + Plataformas**:
 
@@ -35,7 +54,7 @@ Cada projeto de plataforma **referencia o Core** e contém apenas o ponto de ent
 
 ---
 
-## Estrutura de Pastas
+## 📁 Estrutura de Pastas
 
 ### Raiz
 
@@ -54,11 +73,9 @@ Biblioteca de classe cross-platform que contém **todo o código do jogo**.
 ```
 Platformer2D.Core/
 ├── Platformer2D.Core.csproj
-├── Game/                        ← classes principais (ver detalhe abaixo)
-└── Content/                     ← assets do jogo (ver detalhe abaixo)
+├── Game/                        ← classes principais
+└── Content/                     ← assets do jogo
 ```
-
----
 
 #### `Game/` — Classes Principais
 
@@ -77,14 +94,12 @@ Game/
 └── VirtualGamePad.cs        → Gamepad virtual para ecrãs tácteis
 ```
 
----
-
 #### `Content/` — Assets do Jogo
 
 ```
 Content/
 ├── Levels/
-│   ├── 0.txt                → Nível 0 (formato ASCII, ver secção abaixo)
+│   ├── 0.txt                → Nível 0 (formato ASCII)
 │   ├── 1.txt                → Nível 1
 │   └── 2.txt  …             → Níveis adicionais (numeração sequencial)
 │
@@ -113,7 +128,7 @@ Content/
 ├── Backgrounds/
 │   ├── Layer0.png           → Camada mais ao fundo
 │   ├── Layer1.png           → Camada intermédia
-│   └── Layer2.png           → Camada da frente (EntityLayer — entidades desenhadas aqui)
+│   └── Layer2.png           → Camada da frente (EntityLayer)
 │
 ├── Fonts/
 │   └── Hud.spritefont       → Fonte do HUD (score e tempo restante)
@@ -130,20 +145,16 @@ Content/
 
 ### Projetos de Plataforma
 
-Cada projeto contém apenas o ponto de entrada, a Activity/AppDelegate e o ficheiro de build de conteúdo (`.mgcb`). Toda a lógica é herdada do Core.
-
 | Projeto | Plataforma | Ponto de Entrada | Notas |
 |---|---|---|---|
 | `Platformer2D.DesktopGL/` | Windows, Linux, macOS | `Program.cs` | OpenGL; build com .NET |
 | `Platformer2D.Android/` | Android | `MainActivity.cs` | Inclui VirtualGamePad |
 | `Platformer2D.iOS/` | iPhone / iPad | `AppDelegate.cs` | Requer build em Mac |
-| `Platformer2D.WindowsDX/` | Windows | `Program.cs` | DirectX; melhor performance em hardware Microsoft |
+| `Platformer2D.WindowsDX/` | Windows | `Program.cs` | DirectX; melhor performance |
 
 ---
 
 ### `Documentation/` — Tutoriais
-
-Quatro guias Markdown organizados por complexidade crescente:
 
 ```
 Documentation/
@@ -155,7 +166,7 @@ Documentation/
 
 ---
 
-## Fluxo de Execução
+## ▶️ Fluxo de Execução
 
 ```
 Arranque
@@ -185,7 +196,7 @@ Loop principal
 
 ---
 
-## Classes e Responsabilidades
+## 🧩 Classes e Responsabilidades
 
 ### `Game.cs` — PlatformerGame
 
@@ -208,20 +219,15 @@ Grelha uniforme de tiles que contém coleções de gems e inimigos. Controla:
 
 ### `Player.cs`
 
-Física simplificada: queda, salto e deteção de colisões dinâmicas. Aceita input de:
-- Teclado
-- Gamepad físico
-- VirtualGamePad (ecrã táctil)
+Física simplificada: queda, salto e deteção de colisões dinâmicas. Aceita input de teclado, gamepad físico e VirtualGamePad (ecrã táctil).
 
 ### `Enemy.cs`
 
-Comportamento padrão: patrulha uma plataforma de um lado ao outro. Inverte direção quando:
-- Deteta um tile intransponível (parede)
-- Está prestes a cair da aresta da plataforma
+Comportamento padrão: patrulha uma plataforma de um lado ao outro. Inverte direção quando deteta um tile intransponível ou está prestes a cair da aresta da plataforma.
 
 ### `RectangleExtensions.cs`
 
-Extensão da estrutura `Rectangle` do MonoGame. Implementa dois métodos que tratam o retângulo como um "círculo quadrado" com dois raios (largura e altura), facilitando a deteção de colisão entre entidades.
+Extensão da estrutura `Rectangle` do MonoGame. Implementa dois métodos que tratam o retângulo como um "círculo quadrado" com dois raios, facilitando a deteção de colisão entre entidades.
 
 ### `AnimationPlayer.cs`
 
@@ -229,9 +235,9 @@ Armazena uma spritesheet em `Animation` e reproduz-a frame a frame. Se a animaç
 
 ---
 
-## Formato dos Níveis
+## 🗺️ Formato dos Níveis
 
-Os níveis são ficheiros `.txt` em ASCII guardados em `Content/Levels/`. Cada caractere representa uma célula da grelha:
+Os níveis são ficheiros `.txt` em ASCII em `Content/Levels/`. Cada caractere representa uma célula da grelha:
 
 | Caractere | Significado |
 |---|---|
@@ -239,10 +245,13 @@ Os níveis são ficheiros `.txt` em ASCII guardados em `Content/Levels/`. Cada c
 | `#` | Tile sólido (bloco) |
 | `X` | Saída do nível |
 | `G` | Gem colecionável |
-| `1` | Inimigo tipo A (MonsterA) |
-| `2` | Inimigo tipo B (MonsterB) |
-| `3` | Inimigo tipo C (MonsterC) |
-| `4` | Inimigo tipo D (MonsterD) |
+| `A` | Inimigo MonsterA |
+| `B` | Inimigo MonsterB |
+| `C` | Inimigo MonsterC |
+| `D` | Inimigo MonsterD |
+| `1` | Ponto de início do jogador |
+| `-` | Plataforma flutuante |
+| `~` | Bloco de plataforma (variante) |
 
 **Exemplo de mapa (nível 0):**
 
@@ -253,24 +262,25 @@ Os níveis são ficheiros `.txt` em ASCII guardados em `Content/Levels/`. Cada c
 ..........................###.....................................############
 ```
 
-> Para adicionar novos níveis: criar `N.txt` (numeração sequencial) em `Content/Levels/` e garantir que a propriedade *Copy to Output Directory* está ativa no projeto de conteúdo.
+> 💡 Para adicionar novos níveis: criar `N.txt` (numeração sequencial) em `Content/Levels/` e garantir que a propriedade *Copy to Output Directory* está ativa.
 
 ---
 
-## Sistema de Animação
+## 🎬 Sistema de Animação
 
-Cada entidade tem as suas animações definidas como spritesheets (uma imagem com todos os frames em linha). O `AnimationPlayer` avança o frame com base no tempo decorrido.
+Cada entidade tem as suas animações definidas como spritesheets. O `AnimationPlayer` avança o frame com base no tempo decorrido.
 
 **Animações do jogador (5):** `Idle`, `Run`, `Jump`, `Celebrate`, `Die`
 
 **Animações de cada inimigo (3):** `Run`, `Idle`, `Die`
+
 > A animação `Die` dos inimigos está incluída mas não é utilizada na versão base — reservada para desenvolvimento futuro.
 
-> **Requisito:** os frames de animação têm de ser **quadrados** (largura = altura).
+> ⚠️ **Requisito:** os frames de animação têm de ser **quadrados** (largura = altura).
 
 ---
 
-## Funcionalidades
+## ✅ Funcionalidades
 
 - Suporte cross-platform: Windows, Android, iOS, Linux
 - Controlo por teclado, gamepad e gamepad virtual (ecrã táctil)
@@ -279,11 +289,17 @@ Cada entidade tem as suas animações definidas como spritesheets (uma imagem co
 - Resolução dupla: assets de alta e baixa resolução incluídos
 - Projeto de conteúdo unificado que compila para cada plataforma alvo
 
-## `Game.cs` — PlatformerGame
+---
+
+## 🔍 Análise Completa dos Códigos
+
+---
+
+### `Game.cs` — PlatformerGame
 
 **299 linhas.** Classe principal e orquestradora. Herda de `Microsoft.Xna.Framework.Game`.
 
-### Campos declarados
+#### Campos declarados
 
 ```csharp
 private GraphicsDeviceManager graphics;
@@ -304,7 +320,7 @@ private const int numberOfLevels = 3;  // número total de níveis hard-coded
 
 O `levelIndex` começa em `-1` propositadamente. Quando `LoadNextLevel()` é chamado pela primeira vez executa `levelIndex = (levelIndex + 1) % numberOfLevels`, resultando em `0`. É um truque simples para não duplicar código de inicialização.
 
-### `ScalePresentationArea()` — adaptação de resolução
+#### `ScalePresentationArea()` — adaptação de resolução
 
 Calcula uma `Matrix` de escala proporcional à diferença entre o backbuffer real e os 800×480 base. Todo o `SpriteBatch.Begin` usa esta matriz, o que significa que o jogo escala automaticamente para qualquer resolução sem alterar uma linha de lógica de jogo.
 
@@ -314,7 +330,7 @@ float verScaling = backbufferHeight / baseScreenSize.Y;
 globalTransformation = Matrix.CreateScale(new Vector3(horScaling, verScaling, 1));
 ```
 
-### `HandleInput()` — input de alto nível
+#### `HandleInput()` — input de alto nível
 
 Recolhe todos os estados de input uma vez por frame e decide a ação de alto nível. A variável `wasContinuePressed` evita que manter a tecla premida avance múltiplos estados — só atua na transição de não-premido para premido.
 
@@ -336,7 +352,7 @@ if (!wasContinuePressed && continuePressed)
 wasContinuePressed = continuePressed;
 ```
 
-### `LoadNextLevel()` — carregamento de nível
+#### `LoadNextLevel()` — carregamento de nível
 
 ```csharp
 levelIndex = (levelIndex + 1) % numberOfLevels;
@@ -348,7 +364,7 @@ using (Stream fileStream = TitleContainer.OpenStream(levelPath))
 
 O uso de `TitleContainer.OpenStream` em vez de `File.Open` é deliberado — funciona em todas as plataformas incluindo Android e iOS onde o sistema de ficheiros é sandboxed.
 
-### `Draw()` + `DrawHud()`
+#### `Draw()` + `DrawHud()`
 
 O `Draw` principal é simples: limpa o ecrã, abre o `SpriteBatch` com a matriz global, delega em `Level.Draw` e chama `DrawHud`. O HUD tem lógica de piscar quando o tempo está a acabar:
 
@@ -373,11 +389,11 @@ private void DrawShadowedString(SpriteFont font, string value, Vector2 position,
 
 ---
 
-## `Level.cs`
+### `Level.cs`
 
 **551 linhas.** A classe mais complexa do projeto. Implementa `IDisposable` porque tem um `ContentManager` próprio que precisa de ser libertado explicitamente quando o nível termina.
 
-### Estado interno
+#### Estado interno
 
 ```csharp
 private Tile[,] tiles;          // grelha 2D de tiles
@@ -398,7 +414,7 @@ private const int PointsPerSecond = 5;
 
 O `Random` com seed fixa é uma decisão de design importante: garante reprodutibilidade dos níveis — os tiles com variação visual são sempre os mesmos em cada execução.
 
-### `LoadTiles()` — leitura e validação do mapa
+#### `LoadTiles()` — leitura e validação do mapa
 
 Lê o ficheiro `.txt` e valida que todas as linhas têm o mesmo comprimento. Depois percorre cada caractere e chama `LoadTile(char, x, y)`:
 
@@ -422,9 +438,7 @@ switch (tileType) {
 
 O método termina com validações explícitas — se não existir ponto de início ou saída, lança `NotSupportedException`. É design defensivo: falha rápido com uma mensagem clara em vez de o jogo crashar misteriosamente mais tarde.
 
-### `LoadVarietyTile()` — variação visual determinística
-
-Seleciona aleatoriamente (com o `random` de seed fixa) uma variante visual entre as disponíveis, dando variedade visual sem alterar o comportamento de colisão:
+#### `LoadVarietyTile()` — variação visual determinística
 
 ```csharp
 private Tile LoadVarietyTile(string baseName, int variationCount, TileCollision collision)
@@ -434,7 +448,7 @@ private Tile LoadVarietyTile(string baseName, int variationCount, TileCollision 
 }
 ```
 
-### `Update()` — máquina de estados central
+#### `Update()` — máquina de estados central
 
 ```csharp
 if (!Player.IsAlive || TimeRemaining == TimeSpan.Zero)
@@ -456,21 +470,17 @@ else
     Player.Update(...);
     UpdateGems(gameTime);
 
-    // cair do ecrã mata o jogador
     if (Player.BoundingRectangle.Top >= Height * Tile.Height)
-        OnPlayerKilled(null);
+        OnPlayerKilled(null);  // cair do ecrã mata o jogador
 
     UpdateEnemies(gameTime);
 
-    // condição de vitória: no chão + dentro do tile de saída
     if (Player.IsAlive && Player.IsOnGround && Player.BoundingRectangle.Contains(exit))
-        OnExitReached();
+        OnExitReached();  // condição de vitória
 }
 ```
 
-Nota de polish: quando o jogador morre, a física continua a ser aplicada para que ele caia de forma natural antes do overlay aparecer.
-
-### `UpdateGems()` — remoção segura durante iteração
+#### `UpdateGems()` — remoção segura durante iteração
 
 ```csharp
 for (int i = 0; i < gems.Count; ++i)
@@ -485,7 +495,7 @@ for (int i = 0; i < gems.Count; ++i)
 }
 ```
 
-### `Draw()` — ordem de renderização em camadas
+#### `Draw()` — ordem de renderização em camadas
 
 ```csharp
 // 1. Camadas de fundo (índices 0 e 1)
@@ -496,7 +506,7 @@ for (int i = 0; i <= EntityLayer; ++i)
 DrawTiles(spriteBatch);
 
 // 3. Entidades (gems, jogador, inimigos) — EntityLayer = 2
-foreach (Gem gem in gems)    gem.Draw(gameTime, spriteBatch);
+foreach (Gem gem in gems)        gem.Draw(gameTime, spriteBatch);
 Player.Draw(gameTime, spriteBatch);
 foreach (Enemy enemy in enemies) enemy.Draw(gameTime, spriteBatch);
 
@@ -507,32 +517,32 @@ for (int i = EntityLayer + 1; i < layers.Length; ++i)
 
 ---
 
-## `Player.cs`
+### `Player.cs`
 
 **447 linhas.** A classe mais matemática do projeto, com um sistema de física completo implementado de raiz.
 
-### Constantes de física
+#### Constantes de física
 
 ```csharp
 // Movimento horizontal
-private const float MoveAcceleration  = 13000.0f;  // aceleração
-private const float MaxMoveSpeed      = 1750.0f;   // velocidade máxima
-private const float GroundDragFactor  = 0.48f;     // atrito no chão (travagem rápida)
-private const float AirDragFactor     = 0.58f;     // atrito no ar (travagem mais lenta)
+private const float MoveAcceleration   = 13000.0f;  // aceleração
+private const float MaxMoveSpeed       = 1750.0f;   // velocidade máxima
+private const float GroundDragFactor   = 0.48f;     // atrito no chão (travagem rápida)
+private const float AirDragFactor      = 0.58f;     // atrito no ar (travagem mais lenta)
 
 // Salto
-private const float MaxJumpTime        = 0.35f;     // duração máxima do salto
-private const float JumpLaunchVelocity = -3500.0f;  // velocidade inicial (negativa = para cima)
+private const float MaxJumpTime         = 0.35f;    // duração máxima do salto
+private const float JumpLaunchVelocity  = -3500.0f; // velocidade inicial (negativa = para cima)
 private const float GravityAcceleration = 3400.0f;  // gravidade
-private const float MaxFallSpeed       = 550.0f;    // velocidade máxima de queda
-private const float JumpControlPower   = 0.14f;     // curvatura da curva de controlo
+private const float MaxFallSpeed        = 550.0f;   // velocidade máxima de queda
+private const float JumpControlPower    = 0.14f;    // curvatura da curva de controlo
 ```
 
-Todas as constantes são ajustáveis sem tocar na lógica. É aqui que um designer alteraria o "feel" do jogo — resposta, altura do salto, travagem, etc.
+Todas as constantes são ajustáveis sem tocar na lógica. É aqui que um designer alteraria o "feel" do jogo.
 
-### `GetInput()` — prioridade de input
+#### `GetInput()` — prioridade de input
 
-Recolhe input com três camadas de prioridade: analógico → acelerómetro → digital. O input digital sobrepõe-se sempre por ser mais preciso. O acelerómetro tem dead zone de 0.10 para evitar drift em dispositivos móveis:
+Recolhe input com três camadas de prioridade: analógico → acelerómetro → digital. O input digital sobrepõe-se sempre por ser mais preciso. O acelerómetro tem dead zone de `0.10` para evitar drift em dispositivos móveis:
 
 ```csharp
 // analógico
@@ -550,7 +560,7 @@ else if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
     movement = 1.0f;
 ```
 
-### `ApplyPhysics()` — núcleo da física
+#### `ApplyPhysics()` — núcleo da física
 
 ```csharp
 float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -561,14 +571,13 @@ velocity.X += movement * MoveAcceleration * elapsed;
 velocity.Y = MathHelper.Clamp(velocity.Y + GravityAcceleration * elapsed,
                                -MaxFallSpeed, MaxFallSpeed);
 
-// salto override do eixo Y
-velocity.Y = DoJump(velocity.Y, gameTime);
+velocity.Y = DoJump(velocity.Y, gameTime);  // salto override do eixo Y
 
 // drag diferente consoante no chão ou no ar
 velocity.X *= IsOnGround ? GroundDragFactor : AirDragFactor;
 velocity.X = MathHelper.Clamp(velocity.X, -MaxMoveSpeed, MaxMoveSpeed);
 
-// aplicar posição com snap a pixel inteiro (evita jitter visual)
+// snap a pixel inteiro — evita jitter visual
 Position += velocity * elapsed;
 Position = new Vector2((float)Math.Round(Position.X), (float)Math.Round(Position.Y));
 
@@ -579,9 +588,7 @@ if (Position.X == previousPosition.X) velocity.X = 0;
 if (Position.Y == previousPosition.Y) velocity.Y = 0;
 ```
 
-O snap a pixel inteiro (`Math.Round`) é um detalhe importante — evita jitter visual quando o personagem está parado em superfícies.
-
-### `DoJump()` — curva de potência para controlo do salto
+#### `DoJump()` — curva de potência para controlo do salto
 
 ```csharp
 private float DoJump(float velocityY, GameTime gameTime)
@@ -616,23 +623,22 @@ private float DoJump(float velocityY, GameTime gameTime)
 }
 ```
 
-Enquanto o jogador mantém o botão premido e `jumpTime <= MaxJumpTime`, a velocidade Y é calculada pela curva de potência. Soltar o botão cedo resulta num salto mais baixo — comportamento idêntico ao de jogos como Super Mario Bros.
+Soltar o botão cedo resulta num salto mais baixo — comportamento idêntico ao de jogos como Super Mario Bros.
 
-### `HandleCollisions()` — deteção e resolução tile a tile
+#### `HandleCollisions()` — deteção e resolução tile a tile
 
 ```csharp
-// determina quais tiles estão nos limites do jogador
 int leftTile   = (int)Math.Floor((float)bounds.Left / Tile.Width);
 int rightTile  = (int)Math.Ceiling(((float)bounds.Right / Tile.Width)) - 1;
 int topTile    = (int)Math.Floor((float)bounds.Top / Tile.Height);
 int bottomTile = (int)Math.Ceiling(((float)bounds.Bottom / Tile.Height)) - 1;
 ```
 
-Para cada tile potencialmente colidível, usa `RectangleExtensions.GetIntersectionDepth` para obter a profundidade de interseção em X e Y. A resolução é feita pelo eixo mais raso (menor profundidade), o que produz comportamento correto em cantos.
+Para cada tile potencialmente colidível, usa `RectangleExtensions.GetIntersectionDepth` para obter a profundidade de interseção em X e Y. A resolução é feita pelo eixo mais raso, o que produz comportamento correto em cantos.
 
 Para `Platform` tiles, a colisão só é resolvida se o jogador estava acima (`previousBottom <= tileBounds.Top`), permitindo saltar através da plataforma por baixo mas aterrar em cima.
 
-### `Draw()` — flip horizontal baseado na velocidade
+#### `Draw()` — flip horizontal baseado na velocidade
 
 ```csharp
 if (Velocity.X > 0)      flip = SpriteEffects.FlipHorizontally;
@@ -643,18 +649,18 @@ sprite.Draw(gameTime, spriteBatch, Position, flip);
 
 ---
 
-## `Animation.cs` e `AnimationPlayer.cs`
+### `Animation.cs` e `AnimationPlayer.cs`
 
-### `Animation`
+#### `Animation`
 
-Estrutura de dados simples: guarda a `Texture2D` da spritesheet, o tempo por frame (`FrameTime`), se é loop (`IsLooping`), e calcula `FrameCount` e `FrameWidth` a partir da textura, assumindo frames quadrados:
+Estrutura de dados simples: guarda a `Texture2D` da spritesheet, o tempo por frame (`FrameTime`), se é loop (`IsLooping`), e calcula `FrameCount` e `FrameWidth` assumindo frames quadrados:
 
 ```csharp
-public int FrameCount   => Texture.Width / FrameWidth;
-public int FrameWidth   => Texture.Height;  // frames são quadrados: largura = altura
+public int FrameCount  => Texture.Width / FrameWidth;
+public int FrameWidth  => Texture.Height;  // frames são quadrados: largura = altura
 ```
 
-### `AnimationPlayer`
+#### `AnimationPlayer`
 
 Motor de reprodução de animações. A proteção contra interrupção evita que a mesma animação seja reiniciada:
 
@@ -678,17 +684,17 @@ while (time > animation.FrameTime)
     if (animation.IsLooping)
         frameIndex = (frameIndex + 1) % animation.FrameCount;
     else
-        frameIndex = Math.Min(frameIndex + 1, animation.FrameCount - 1);  // fica no último frame
+        frameIndex = Math.Min(frameIndex + 1, animation.FrameCount - 1);
 }
 ```
 
-O `Origin` é o centro do frame, usado para posicionar o sprite corretamente em relação à posição do jogo (o ponto de âncora é o centro do sprite).
+O `Origin` é o centro do frame, usado para posicionar o sprite corretamente em relação à posição do jogo.
 
 ---
 
-## `Gem.cs` e `Circle.cs`
+### `Gem.cs` e `Circle.cs`
 
-### `Gem` — animação sinusoidal
+#### `Gem` — animação sinusoidal
 
 A gem tem uma animação de flutuação baseada em onda sinusoidal. A posição X é usada como offset de fase, fazendo com que cada gem oscile ligeiramente desfasada das outras:
 
@@ -699,26 +705,24 @@ bounce = (float)Math.Sin(t * BounceRate) * BounceHeight * BounceSync;
 
 Este detalhe faz com que as gems pareçam "respirar" de forma orgânica — um efeito elegante com apenas 3 linhas de código.
 
-### `Circle` — deteção de colisão eficiente
+#### `Circle` — deteção de colisão eficiente
 
 Struct de colisão usada pelas gems. O método `Intersects` usa `DistanceSquared` em vez de `Distance` para evitar o cálculo de uma raiz quadrada — micro-otimização correta para código que corre em cada frame para cada gem:
 
 ```csharp
 public bool Intersects(Rectangle rectangle)
 {
-    // ponto mais próximo do retângulo ao centro do círculo
     Vector2 closest = Vector2.Clamp(Center,
         new Vector2(rectangle.Left, rectangle.Top),
         new Vector2(rectangle.Right, rectangle.Bottom));
 
-    // comparação sem raiz quadrada
     return Vector2.DistanceSquared(Center, closest) < Radius * Radius;
 }
 ```
 
 ---
 
-## `Tile.cs` e `TileCollision`
+### `Tile.cs` e `TileCollision`
 
 `Tile` é uma `struct` (tipo de valor) com apenas dois campos: `Texture2D Texture` e `TileCollision Collision`. A escolha de `struct` é intencional — o array `Tile[,]` fica em memória contígua, sem overhead de garbage collection por objeto.
 
@@ -731,60 +735,53 @@ public enum TileCollision
 }
 ```
 
-Os três tipos de colisão cobrem todos os casos necessários. `Platform` é o tipo mais interessante: é tratado de forma diferente em `HandleCollisions` — só impede a passagem se o jogador vinha de cima.
+`Platform` é o tipo mais interessante: só impede a passagem se o jogador vinha de cima, permitindo saltar por baixo.
 
 ---
 
-## `RectangleExtensions.cs`
+### `RectangleExtensions.cs`
 
 O método mais matemático do projeto. Implementa dois métodos de extensão para a struct `Rectangle` do MonoGame.
 
-### `GetIntersectionDepth()` — profundidade de interseção com direção
-
-Calcula a profundidade mínima de sobreposição entre dois retângulos usando o conceito de "raios":
+#### `GetIntersectionDepth()` — profundidade de interseção com direção
 
 ```csharp
 public static Vector2 GetIntersectionDepth(Rectangle rectA, Rectangle rectB)
 {
-    // centros dos retângulos
     Vector2 centerA = new Vector2(rectA.Center.X, rectA.Center.Y);
     Vector2 centerB = new Vector2(rectB.Center.X, rectB.Center.Y);
 
-    // "raios" — metade das dimensões
     Vector2 halfSizeA = new Vector2(rectA.Width / 2.0f, rectA.Height / 2.0f);
     Vector2 halfSizeB = new Vector2(rectB.Width / 2.0f, rectB.Height / 2.0f);
 
-    // distância entre centros
     float distanceX = centerA.X - centerB.X;
     float distanceY = centerA.Y - centerB.Y;
 
-    // sem interseção se distância > soma dos raios
     float minDistanceX = halfSizeA.X + halfSizeB.X;
     float minDistanceY = halfSizeA.Y + halfSizeB.Y;
-    if (Math.Abs(distanceX) >= minDistanceX || Math.Abs(distanceY) >= minDistanceY)
-        return Vector2.Zero;
 
-    // profundidade com direção (sinal indica para onde separar)
+    if (Math.Abs(distanceX) >= minDistanceX || Math.Abs(distanceY) >= minDistanceY)
+        return Vector2.Zero;  // sem interseção
+
     float depthX = distanceX > 0 ? minDistanceX - distanceX : -minDistanceX - distanceX;
     float depthY = distanceY > 0 ? minDistanceY - distanceY : -minDistanceY - distanceY;
     return new Vector2(depthX, depthY);
 }
 ```
 
-O sinal do resultado diz a direção em que separar os objetos: positivo empurra para direita/baixo, negativo para esquerda/cima. É este valor que o `HandleCollisions` do `Player` usa diretamente para resolver penetrações.
+O sinal do resultado diz a direção em que separar os objetos: positivo empurra para direita/baixo, negativo para esquerda/cima. É este valor que o `HandleCollisions` do `Player` usa para resolver penetrações.
 
-### `GetBottomCenter()` — centro da base de um tile
+#### `GetBottomCenter()` — centro da base de um tile
 
-Método utilitário que devolve o ponto central da base de um retângulo — usado para posicionar o jogador e os inimigos no chão quando são instanciados a partir de um tile de início.
+Método utilitário que devolve o ponto central da base de um retângulo — usado para posicionar o jogador e os inimigos no chão quando são instanciados.
 
 ---
 
-## `Enemy.cs`
+### `Enemy.cs`
 
-Comportamento simples mas bem implementado. O inimigo tem dois estados visíveis (`Idle` e `Walk`) e patrulha em linha reta, invertendo a direção quando deteta obstáculo à frente ou borda de plataforma:
+Comportamento simples mas bem implementado. O inimigo patrulha em linha reta e inverte a direção quando deteta obstáculo à frente ou borda de plataforma:
 
 ```csharp
-// verifica o tile à frente e o tile no chão à frente
 TileCollision tileInFront  = level.GetCollision(nextTileX, tileY);
 TileCollision tileOnGround = level.GetCollision(nextTileX, tileY + 1);
 
@@ -792,9 +789,7 @@ if (tileInFront == TileCollision.Impassable || tileOnGround == TileCollision.Pas
     direction = (FaceDirection)(-(int)direction);  // inverte direção
 ```
 
-A inversão por cast para `int` e negação funciona porque `FaceDirection` é definido como `{ Left = -1, Right = 1 }` — um truque numérico limpo que evita um `if/else`.
-
-O `LoadContent` do inimigo carrega o tipo de spritesheet com base na string passada pelo `Level`:
+A inversão por cast para `int` e negação funciona porque `FaceDirection` é `{ Left = -1, Right = 1 }` — um truque numérico limpo que evita um `if/else`.
 
 ```csharp
 private void LoadContent(string spriteSet)
@@ -808,7 +803,7 @@ private void LoadContent(string spriteSet)
 
 ---
 
-## Padrões de Design Observados
+## 🧠 Padrões de Design Observados
 
 ### 1. Componente auto-suficiente
 
@@ -820,35 +815,37 @@ Cada entidade tem `LoadContent`, `Update` e `Draw` próprios. O `Level` apenas o
 
 ### 3. Input centralizado e passado para baixo
 
-O `PlatformerGame` recolhe todos os estados de input uma única vez por frame e passa-os como parâmetros para `Level.Update`, que os passa para `Player.Update`. Nenhuma entidade chama `Keyboard.GetState()` diretamente, eliminando leituras duplicadas do hardware.
+O `PlatformerGame` recolhe todos os estados de input uma única vez por frame e passa-os como parâmetros para `Level.Update`, que os passa para `Player.Update`. Nenhuma entidade chama `Keyboard.GetState()` diretamente.
 
 ### 4. Separação de dados e lógica
 
-`Tile` e `Animation` são structs de dados puros — apenas guardam informação. `AnimationPlayer`, `Player`, `Enemy` são as classes que contêm a lógica que usa esses dados. A separação torna o código mais fácil de ler e de substituir partes independentemente.
+`Tile` e `Animation` são structs de dados puros. `AnimationPlayer`, `Player`, `Enemy` são as classes que contêm a lógica. A separação torna o código mais fácil de ler e de substituir partes independentemente.
 
 ### 5. Constantes nomeadas no topo das classes
 
-Todas as constantes de física, timing e gameplay estão nomeadas e agrupadas no topo das classes. Não existe nenhum "magic number" no meio da lógica. Exemplo em `Player.cs`:
+Todas as constantes de física, timing e gameplay estão nomeadas e agrupadas. Não existe nenhum "magic number" no meio da lógica:
 
 ```csharp
-private const float MoveAcceleration   = 13000.0f;
-private const float MaxMoveSpeed       = 1750.0f;
-private const float GroundDragFactor   = 0.48f;
-private const float JumpLaunchVelocity = -3500.0f;
+private const float MoveAcceleration    = 13000.0f;
+private const float MaxMoveSpeed        = 1750.0f;
+private const float GroundDragFactor    = 0.48f;
+private const float JumpLaunchVelocity  = -3500.0f;
 private const float GravityAcceleration = 3400.0f;
 ```
 
 ### 6. Design defensivo (fail fast)
 
-`LoadTiles` valida que o mapa tem início e saída. `LoadStartTile` valida que não há dois inícios. Se algo estiver errado no ficheiro de nível, o jogo lança uma exceção com mensagem descritiva imediatamente, em vez de falhar silenciosamente mais tarde numa situação difícil de diagnosticar.
+`LoadTiles` valida que o mapa tem início e saída. `LoadStartTile` valida que não há dois inícios. Se algo estiver errado no ficheiro de nível, o jogo lança uma exceção com mensagem descritiva imediatamente.
 
 ### 7. Otimizações micro mas corretas
 
-- `Circle.Intersects` usa `DistanceSquared` em vez de `Distance` para evitar raiz quadrada em código de colisão executado por frame.
-- `Tile` é `struct` para garantir memória contígua no array da grelha.
-- `AnimationPlayer.PlayAnimation` não reinicia se a animação já está a tocar, evitando reset visual indesejado.
-- `Math.Round` na posição do jogador previne jitter visual sub-pixel.
+- `Circle.Intersects` usa `DistanceSquared` em vez de `Distance` — evita raiz quadrada em código de colisão executado por frame
+- `Tile` é `struct` para garantir memória contígua no array da grelha
+- `AnimationPlayer.PlayAnimation` não reinicia se a animação já está a tocar
+- `Math.Round` na posição do jogador previne jitter visual sub-pixel
 
 ### 8. Seed constante no Random
 
-O `Random` do `Level` usa sempre a mesma seed (`354668`), garantindo que a variação visual dos tiles é determinística. O mesmo nível tem sempre o mesmo aspeto visual, independentemente de quantas vezes for carregado — importante para consistência de design.
+O `Random` do `Level` usa sempre a mesma seed (`354668`), garantindo que a variação visual dos tiles é determinística. O mesmo nível tem sempre o mesmo aspeto visual, independentemente de quantas vezes for carregado.
+
+---
